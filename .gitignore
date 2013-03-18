@@ -1,0 +1,14 @@
+# C++
+*.o
+
+# vim
+*.swp
+
+# Qt
+*.user*
+moc_*
+ui_*
+*.autosave
+
+# this project
+integrators
