@@ -10,5 +10,10 @@ moc_*
 ui_*
 *.autosave
 
+# generated output
+*.dat
+*.pdf
+
 # this project
 integrators
+integrators-debug
