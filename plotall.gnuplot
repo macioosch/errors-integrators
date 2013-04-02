@@ -1,35 +1,48 @@
 #!/usr/bin/gnuplot
-set terminal pdf enhanced
+set terminal pdf enhanced size 3,5
 set datafile separator ';'
 set logscale xy
 set format xy "10^{%T}" # %.0t⋅
 set xlabel "{/Symbol D}t / {/Symbol t}"
-set ylabel "<{/Symbol d}H^2>^{1/2} / H_0"
 set key below
-set yrange [*:1]
+set xrange [1e-5:1e-1]
+set yrange [1e-14:1e0]
 set mxtics 1
 set mytics 1
 set grid
 
-me = system("perl -le '$e=1; $e/=2 while $e/2+1>1; print $e'")
-
 names = "Euler Verlet VerletLeapFrog VelocityVerlet RK4"
 
-set output 'pdfs/err-ct.pdf'
-set title 'Constant total time = 10 {/Symbol t}'
-set xrange [1e-8:1e-1]
-plot for [name in names] "data-ct/".name.".dat" t name w p,\
-    2*me t "2{/Symbol e}_m" w l ls 0 lw 7 lc rgb "#00aaff"
+set ylabel "<{/Symbol d}H^2>^{1/2} / H_0"
+set title 'Energy, constant total time = 10 {/Symbol t}'
+set output 'pdfs/err-E-ct.pdf'
+plot for [name in names] "data-ct/".name.".dat" u ($1/(2.0*pi)):2 t name w p
 
-set output 'pdfs/err-ci.pdf'
-set title 'Constant iteration number = 10^7'
-set xrange [1e-8:1e-1]
-plot for [name in names] "data-ci/".name.".dat" t name w p,\
-    2*me t "2{/Symbol e}_m" w l ls 0 lw 7 lc rgb "#00aaff"
+set title 'Energy, constant iteration number = 10^6'
+set output 'pdfs/err-E-ci.pdf'
+plot for [name in names] "data-ci/".name.".dat" u ($1/(2.0*pi)):2 t name w p
+
+set ylabel "<{/Symbol d}x^2>^{1/2}"
+set title 'Position, constant total time = 10 {/Symbol t}'
+set output 'pdfs/err-X-ct.pdf'
+plot for [name in names] "data-ct/".name.".dat" u ($1/(2.0*pi)):3 t name w p
+
+set title 'Position, constant iteration number = 10^6'
+set output 'pdfs/err-X-ci.pdf'
+plot for [name in names] "data-ci/".name.".dat" u ($1/(2.0*pi)):3 t name w p
+
+set ylabel "<{/Symbol d}v^2>^{1/2}"
+set title 'Velocity, constant total time = 10 {/Symbol t}'
+set output 'pdfs/err-V-ct.pdf'
+plot for [name in names] "data-ct/".name.".dat" u ($1/(2.0*pi)):4 t name w p
+
+set title 'Velocity, constant iteration number = 10^6'
+set output 'pdfs/err-V-ci.pdf'
+plot for [name in names] "data-ci/".name.".dat" u ($1/(2.0*pi)):4 t name w p
 
 ###  ###  ###  ###  ###  ###  ###  ###  ###  ###  ###  ###  ###  ###  ###  ###
 reset
-set terminal pdf enhanced
+set terminal pdf enhanced size 5,3
 set output 'pdfs/speed.pdf'
 set title "Speed of used algorithms"
 set datafile separator ';'
@@ -40,4 +53,4 @@ set yrange [0:*]
 set ylabel "Millions of iterations per second"
 set decimalsign ','
 set grid
-plot "data-ci/times.dat" using 0:(1e10/$2):xtic(1) w boxes
+plot "data-ci/times.dat" using 0:(1e9/$2):xtic(1) w boxes
