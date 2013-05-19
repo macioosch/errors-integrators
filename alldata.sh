@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-algorithms=(Euler Verlet VerletLeapFrog VelocityVerlet RK4)
+#algorithms=(Euler Verlet VerletLeapFrog VelocityVerlet RK4)
+algorithms=(Euler VelocityVerlet RK4)
 for a in "${algorithms[@]}"
 do
     echo "Executing ${a} with constant total time..."

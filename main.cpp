@@ -66,7 +66,8 @@ int main(int argc, char **argv)
         integrator = verletVelocity;
     else if (strcmp(algorithmName, "Verlet") == 0)
     {
-        initX(x);
+        initX(x0);
+        initV(v0);
         rK4(x, v, t, dt, b, x, v);
 		double xa = analyticX(x0, v0, t, b);
 		double va = analyticV(x0, v0, t, b);
@@ -78,7 +79,8 @@ int main(int argc, char **argv)
     }
     else if (strcmp(algorithmName, "VerletLeapFrog") == 0)
     {
-        initV(v);
+        initX(x0);
+        initV(v0);
         rK4(x, v, t, dt, b, x, v);
 		double xa = analyticX(x0, v0, t, b);
 		double va = analyticV(x0, v0, t, b);

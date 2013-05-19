@@ -53,16 +53,15 @@ void rK4(double xi, double vi, double t, double dt, double b, double &xf, double
 
 void verlet(double xi, double vi, double t, double dt, double b, double &xf, double &vf)
 {
-    xf = 2*xi - xp + a(xi, vi, b)*pow(dt,2);
+    xf = xi + ((xi - xp) + a(xi, vi, b)*pow(dt,2));
     vf = (xf - xp)/(2*dt);
     xp = xi;
 }
 
 void verletLeapFrog(double xi, double vi, double t, double dt, double b, double &xf, double &vf)
 {
-    vp += dt*a(xi, vi, b);
-    xf = xi + dt*vp;
-    vf = vp;
+    vf = vi + dt*a(xi, vi, b); // should be v(t), not v(t-dt/2)!
+    xf = xi + dt*vf;
 }
 
 void verletVelocity(double xi, double vi, double t, double dt, double b, double &xf, double &vf)
