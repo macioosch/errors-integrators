@@ -69,7 +69,7 @@ void verletVelocity(double xi, double vi, double t, double dt, double b, double 
 {
     double a0 = a(xi, vi, b);
     xf = xi + vi*dt + 0.5*a0*pow(dt,2);
-    vf = vi + 0.5*dt*(a0 + a(xf, vi, b));
+    vf = vi + 0.5*dt*(a0 + a(xf, vi+dt*a0, b));
 }
 
 double analyticX(double xi, double vi, double t, double b)
